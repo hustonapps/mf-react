@@ -3,7 +3,7 @@
 ## To Test
 
 - Clone repo
-- `yarn` (`npm -i yarn` if yarn not installed)
+- `yarn` (`npm i -g yarn` if yarn not installed)
 - `yarn start`
 
 This should start three different apps:
