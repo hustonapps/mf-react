@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "lerna run start --parallel"
+    "start": "lerna run start --parallel",
+    "postinstall": "cd ./repos/host-app && yarn && cd ../app2 && yarn && cd ../ui-components && yarn"
   },
   "keywords": [],
   "author": "",
