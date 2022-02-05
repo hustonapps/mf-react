@@ -218,7 +218,7 @@ module.exports = function (webpackEnv) {
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
-      publicPath: paths.publicUrlOrPath,
+      publicPath: "auto",
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? (info) =>
@@ -345,6 +345,13 @@ module.exports = function (webpackEnv) {
           exclude: /@babel(?:\/|\\{1,2})runtime/,
           test: /\.(js|mjs|jsx|ts|tsx|css)$/,
           loader: require.resolve("source-map-loader"),
+        },
+        {
+          test: /bootstrap\.tsx$/,
+          loader: "bundle-loader",
+          options: {
+            laxy: true,
+          },
         },
         {
           // "oneOf" will traverse all following loaders until one will
@@ -564,10 +571,21 @@ module.exports = function (webpackEnv) {
     },
     plugins: [
       new ModuleFederationPlugin({
-        name: "ui_components",
+        name: "UIComponents",
         filename: "remoteEntry.js",
         exposes: {
-          "./Button": "./src/components/Button",
+          "./Button": "./src/components/Button/index",
+        },
+        shared: {
+          react: {
+            singleton: true,
+          },
+          "react-dom": {
+            singleton: true,
+          },
+          "styled-components": {
+            singleton: true,
+          },
         },
       }),
       // Generates an `index.html` file with the <script> injected.
